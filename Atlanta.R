@@ -3,7 +3,10 @@ library(foreign)
 library(tidyverse)
 library(lwgeom)
 library(here)
-
+library(extrafont)
+# follow extrafont instructions at https://cran.r-project.org/web/packages/extrafont/README.html
+# run extrafont::font_import()
+loadfonts()
 
 options(stringsAsFactors = FALSE)
 
@@ -154,10 +157,19 @@ blankbg <-theme(axis.line=element_blank(),axis.text.x=element_blank(),
                 panel.background=element_blank(),panel.border=element_blank(),panel.grid.major=element_blank(),
                 panel.grid.minor=element_blank(),plot.background=element_blank())
 
-ggplot() + blankbg + theme(panel.grid.major = element_line(colour = "transparent")) + 
+ggplot() + 
+  blankbg + 
   geom_sf(data=otherroads, size = .45, aes(color=SUFTYPABRV)) + 
   geom_sf(data=allroads, size = .55, aes(color=SUFTYPABRV)) + 
-  scale_color_manual(values = plotcolors) 
+  theme(legend.position="bottom",
+        legend.direction = "horizontal",
+        legend.title=element_text(size=28),
+        panel.grid.major = element_line(colour = "transparent"),
+        text=element_text(family="CabernetJFPro")
+        # guides(colour = guide_legend(override.aes = list(shape = 15)))
+  ) +
+  scale_color_manual(values = plotcolors, name = "ATLANTA") +
+  scale_fill_manual(values = plotcolors)
 
 # ggsave(paste0("./IndivRoads/", city, ".png"), plot = last_plot(),
 #        scale = 1, width = 24, height = 24, units = "in",
