@@ -168,13 +168,13 @@ ggplot() +
         text=element_text(family="CabernetJFPro")
         # guides(colour = guide_legend(override.aes = list(shape = 15)))
   ) +
-  scale_color_manual(values = plotcolors, name = "ATLANTA") +
-  scale_fill_manual(values = plotcolors)
+  scale_color_manual(values = plotcolors, name = "ATLANTA") # +
+  # scale_fill_manual(values = plotcolors, name = "ATLANTA")
 
 # ggsave(paste0("./IndivRoads/", city, ".png"), plot = last_plot(),
 #        scale = 1, width = 24, height = 24, units = "in",
 #        dpi = 500)
-ggsave(here::here(paste0("IndivRoads/", city, "_",  format(Sys.Date(), "%Y%m%d"),".png")), plot = last_plot(),
+ggsave(here::here(paste0("IndivRoads/", city, "_",  format(Sys.Date(), "%Y%m%d"),"v2.png")), plot = last_plot(),
        scale = 1, width = 24, height = 24, units = "in",
        dpi = 500)
 
