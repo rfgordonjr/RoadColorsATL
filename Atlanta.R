@@ -63,7 +63,10 @@ for (i in 1:nrow(files)) {
 
 #---------subset the roads into a circle 15 miles wide-------
 pt <- pt %>% st_as_sf(coords = c("long", "lat"), crs = 4326) %>% st_transform(2163)
-circle <- st_buffer(pt, dist = 24140.2)
+# circle <- st_buffer(pt, dist = 24140.2)
+# circle <- st_buffer(pt, dist = 12070.1) # try half radius
+# circle <- st_buffer(pt, dist = 18105.15) # try 3/4 radius
+circle <- st_buffer(pt, dist = 20000) # just get 285!
 circle <- circle %>% st_transform(st_crs(temp))
 allroads <- st_intersection(circle, allroads)
 
@@ -71,7 +74,11 @@ allroads <- st_intersection(circle, allroads)
 plottype <- allroads %>% select(SUFTYPABRV,len) 
 plottype$geometry <- NULL
 plottype <- subset(plottype, !is.na(SUFTYPABRV))
-plottype <- plottype %>% group_by(SUFTYPABRV) %>% summarise(Length = sum(len)) %>% arrange(-Length) %>% head(8)
+plottype <- plottype %>% 
+  group_by(SUFTYPABRV) %>% 
+  summarise(Length = sum(len)) %>% 
+  arrange(-Length) %>% 
+  head(8)
 
 #these ones I want to set always
 plotcolors <- c('Other' = '#cccccc')
@@ -151,19 +158,28 @@ allroads$SUFTYPABRV[!(allroads$SUFTYPABRV %in% suff)] <- "Other"
 otherroads <- allroads[(allroads$SUFTYPABRV  == "Other"),]
 allroads <- allroads[(allroads$SUFTYPABRV  != "Other"),]
 
-blankbg <-theme(axis.line=element_blank(),axis.text.x=element_blank(),
-                axis.text.y=element_blank(),axis.ticks=element_blank(),
-                axis.title.x=element_blank(), axis.title.y=element_blank(),
-                panel.background=element_blank(),panel.border=element_blank(),panel.grid.major=element_blank(),
-                panel.grid.minor=element_blank(),plot.background=element_blank())
+blankbg <-theme(axis.line=element_blank(),
+                axis.text.x=element_blank(),
+                axis.text.y=element_blank(),
+                axis.ticks=element_blank(),
+                axis.title.x=element_blank(), 
+                axis.title.y=element_blank(),
+                panel.background=element_rect(fill = "darkblue"),
+                panel.border=element_blank(),
+                panel.grid.major=element_blank(),
+                panel.grid.minor=element_blank(),
+                plot.background=element_rect(fill = "darkblue")
+                )
 
 ggplot() + 
   blankbg + 
-  geom_sf(data=otherroads, size = .45, aes(color=SUFTYPABRV)) + 
+  geom_sf(data=otherroads, size = .45, aes(color=SUFTYPABRV)) +
   geom_sf(data=allroads, size = .55, aes(color=SUFTYPABRV)) + 
   theme(legend.position="bottom",
         legend.direction = "horizontal",
-        legend.title=element_text(size=28),
+        legend.background = element_rect(fill = "darkblue"),
+        legend.text = element_text(colour = "white"),
+        legend.title=element_text(size=36, colour = "white"),
         panel.grid.major = element_line(colour = "transparent"),
         text=element_text(family="CabernetJFPro")
         # guides(colour = guide_legend(override.aes = list(shape = 15)))
@@ -174,7 +190,7 @@ ggplot() +
 # ggsave(paste0("./IndivRoads/", city, ".png"), plot = last_plot(),
 #        scale = 1, width = 24, height = 24, units = "in",
 #        dpi = 500)
-ggsave(here::here(paste0("IndivRoads/", city, "_",  format(Sys.Date(), "%Y%m%d"),"v2.png")), plot = last_plot(),
+ggsave(here::here(paste0("IndivRoads/", city, "_",  format(Sys.Date(), "%Y%m%d"),"_darkblue.png")), plot = last_plot(),
        scale = 1, width = 24, height = 24, units = "in",
        dpi = 500)
 
