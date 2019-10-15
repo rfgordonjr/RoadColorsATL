@@ -4,7 +4,10 @@ Acknowledgements: Piggybacking off the great work by Erin Davis from her github:
 
 What follows below are minor additions I made to create a similar plot for Atlanta.
 
-Changes include:
+- Added R projects and the `here` packages.
+- Installed new fonts for the legend via the `extrafont` package. Used CabernetJFPro font to resemble font from the [Atlanta TV Show](https://en.wikipedia.org/wiki/Atlanta_(TV_series))
+- Changed background/text colors to roughly match the Atlanta Braves color scheme.
+- Changed radius to extend barely past the I-285 perimeter (for maximum ITP snobbery).
 
-- Adding R projects and the `here` packages.
-- Installing new fonts for the legend via the `extrafont` package.
+Here's the latest output:
+
