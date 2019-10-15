@@ -66,7 +66,8 @@ pt <- pt %>% st_as_sf(coords = c("long", "lat"), crs = 4326) %>% st_transform(21
 # circle <- st_buffer(pt, dist = 24140.2)
 # circle <- st_buffer(pt, dist = 12070.1) # try half radius
 # circle <- st_buffer(pt, dist = 18105.15) # try 3/4 radius
-circle <- st_buffer(pt, dist = 20000) # just get 285!
+# circle <- st_buffer(pt, dist = 20000) # just get 285!
+circle <- st_buffer(pt, dist = 22000) # just get 285!
 circle <- circle %>% st_transform(st_crs(temp))
 allroads <- st_intersection(circle, allroads)
 
@@ -164,28 +165,30 @@ blankbg <-theme(axis.line=element_blank(),
                 axis.ticks=element_blank(),
                 axis.title.x=element_blank(), 
                 axis.title.y=element_blank(),
-                panel.background=element_rect(fill = "darkblue"),
+                # panel.background=element_blank(),
+                panel.background=element_rect(fill = "navy"),
                 panel.border=element_blank(),
                 panel.grid.major=element_blank(),
                 panel.grid.minor=element_blank(),
-                plot.background=element_rect(fill = "darkblue")
+                # plot.background=element_blank()
+                plot.background=element_rect(fill = "navy")
                 )
 
 ggplot() + 
   blankbg + 
-  geom_sf(data=otherroads, size = .45, aes(color=SUFTYPABRV)) +
-  geom_sf(data=allroads, size = .55, aes(color=SUFTYPABRV)) + 
+  geom_sf(data=otherroads, size = .45, aes(color=SUFTYPABRV, fill=SUFTYPABRV)) +
+  geom_sf(data=allroads, size = .55, aes(color=SUFTYPABRV, fill=SUFTYPABRV)) +
   theme(legend.position="bottom",
         legend.direction = "horizontal",
-        legend.background = element_rect(fill = "darkblue"),
-        legend.text = element_text(colour = "white"),
-        legend.title=element_text(size=36, colour = "white"),
+        legend.background = element_rect(fill = "navy"),
+        legend.text = element_text(colour = "red"),
+        legend.title=element_text(size=36, colour = "red"),
         panel.grid.major = element_line(colour = "transparent"),
         text=element_text(family="CabernetJFPro")
         # guides(colour = guide_legend(override.aes = list(shape = 15)))
   ) +
-  scale_color_manual(values = plotcolors, name = "ATLANTA") # +
-  # scale_fill_manual(values = plotcolors, name = "ATLANTA")
+  scale_color_manual("ATLANTA", values = plotcolors) +
+  scale_fill_manual("ATLANTA", values = plotcolors)
 
 # ggsave(paste0("./IndivRoads/", city, ".png"), plot = last_plot(),
 #        scale = 1, width = 24, height = 24, units = "in",
