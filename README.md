@@ -11,3 +11,4 @@ What follows below are minor additions I made to create a similar plot for Atlan
 
 Here's the latest output:
 
+![](IndivRoads/Atlanta_20191014_darkblue_small.png)

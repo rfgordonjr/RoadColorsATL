@@ -197,6 +197,26 @@ ggsave(here::here(paste0("IndivRoads/", city, "_",  format(Sys.Date(), "%Y%m%d")
        scale = 1, width = 24, height = 24, units = "in",
        dpi = 500)
 
+## Make small version 
+ggplot() + 
+  blankbg + 
+  geom_sf(data=otherroads, size = .45, aes(color=SUFTYPABRV, fill=SUFTYPABRV)) +
+  geom_sf(data=allroads, size = .55, aes(color=SUFTYPABRV, fill=SUFTYPABRV)) +
+  theme(legend.position="bottom",
+        legend.direction = "horizontal",
+        legend.background = element_rect(fill = "navy"),
+        legend.text = element_text(colour = "red"),
+        legend.title=element_text(size=18, colour = "red"),
+        panel.grid.major = element_line(colour = "transparent"),
+        text=element_text(family="CabernetJFPro")
+        # guides(colour = guide_legend(override.aes = list(shape = 15)))
+  ) +
+  scale_color_manual("ATLANTA", values = plotcolors) +
+  scale_fill_manual("ATLANTA", values = plotcolors)
+
+ggsave(here::here(paste0("IndivRoads/", city, "_",  format(Sys.Date(), "%Y%m%d"),"_darkblue_small.png")), plot = last_plot(),
+       scale = 1, width = 6, height = 10, units = "in",
+       dpi = 500)
 
 
 
